@@ -28,7 +28,7 @@ Implement a Flask-based REST API for managing todo items using the application f
   - [x] 2.3 Create `app/src/__init__.py` with the `create_app()` factory
     - Read `SECRET_KEY` from `os.environ`; raise `RuntimeError` and log an error if absent
     - Read `DATABASE_URL` from `os.environ`; default to `sqlite:///todos.db`
-    - Call `db.init_app(app)`, register blueprints (`todos_bp`, `help_bp`, `contact_bp`), register global error handlers (400, 404, 422, 500)
+    - Call `db.init_app(app)`, register blueprints (`todos_bp`, `help_bp`), register global error handlers (400, 404, 422, 500)
     - Call `db.create_all()` inside an app context
     - _Requirements: 6.1, 6.2, 6.3, 6.4_
 
@@ -165,35 +165,20 @@ Implement a Flask-based REST API for managing todo items using the application f
     - Assert response body contains each of the five endpoint paths
     - _Requirements: 8.1, 8.2, 8.3_
 
-- [x] 8. Implement the contact blueprint and template
-  - [x] 8.1 Create `app/src/routes/contact.py` with the `contact_bp` Blueprint (prefix `/contact`)
-    - Single `GET /contact` handler that renders `app/src/templates/contact.html` with HTTP 200
-    - Register `contact_bp` in `create_app()` in `app/src/__init__.py` alongside `todos_bp` and `help_bp`
-    - _Requirements: 9.1, 9.4_
-
-  - [x] 8.2 Create `app/src/templates/contact.html`
-    - Display at least one contact method: a `<a href="mailto:...">` link, or an HTML `<form>` with name, email, and message fields
-    - _Requirements: 9.1, 9.2, 9.3_
-
-  - [x]* 8.3 Write integration test for `GET /contact`
-    - Assert HTTP 200 and `Content-Type` header begins with `text/html`
-    - Assert response body contains a contact method (mailto link or form with name/email/message fields)
-    - _Requirements: 9.1, 9.2, 9.3_
-
-- [x] 9. Wire application entry points
-  - [x] 9.1 Create `app/src/run.py` (development entry point)
+- [x] 8. Wire application entry points
+  - [x] 8.1 Create `app/src/run.py` (development entry point)
     - Call `create_app()` and run with `host="127.0.0.1"`, `port=5001`
     - _Requirements: 6.5_
 
-  - [x] 9.2 Create `wsgi.py` (production gunicorn entry point)
+  - [x] 8.2 Create `wsgi.py` (production gunicorn entry point)
     - Expose `app = create_app()` for gunicorn to discover
     - _Requirements: 6.5_
 
-  - [ ]* 9.3 Write integration test for missing `SECRET_KEY` at startup
+  - [ ]* 8.3 Write integration test for missing `SECRET_KEY` at startup
     - Monkeypatch `os.environ` to remove `SECRET_KEY`; assert `create_app()` raises `RuntimeError`
     - _Requirements: 6.3_
 
-- [x] 10. Final checkpoint — Ensure all tests pass
+- [x] 9. Final checkpoint — Ensure all tests pass
   - Run `uv run pytest -v` and confirm all tests pass with no warnings. Ask the user if questions arise.
 
 ## Notes
@@ -216,8 +201,8 @@ Implement a Flask-based REST API for managing todo items using the application f
     { "id": 3, "tasks": ["3.2", "4.1"] },
     { "id": 4, "tasks": ["4.2", "4.3", "4.4", "4.5", "4.6", "5.1"] },
     { "id": 5, "tasks": ["5.2", "5.3", "5.4", "5.5", "5.6", "5.7", "5.8", "5.9", "5.10", "7.1", "7.2"] },
-    { "id": 6, "tasks": ["7.3", "8.1", "8.2", "9.1", "9.2"] },
-    { "id": 7, "tasks": ["8.3", "9.3"] }
+    { "id": 6, "tasks": ["7.3", "8.1", "8.2"] },
+    { "id": 7, "tasks": ["8.3"] }
   ]
 }
 ```

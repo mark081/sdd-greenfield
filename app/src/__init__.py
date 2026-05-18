@@ -28,11 +28,9 @@ def create_app() -> Flask:
     # Register blueprints
     from app.src.routes.todos import todos_bp
     from app.src.routes.help import help_bp
-    from app.src.routes.contact import contact_bp
 
     app.register_blueprint(todos_bp)
     app.register_blueprint(help_bp)
-    app.register_blueprint(contact_bp)
 
     # Register global error handlers
     @app.errorhandler(400)

@@ -4,7 +4,7 @@
 
 The Todo App is a RESTful web service built with Flask that provides CRUD operations for todo items. It follows the application factory pattern, persists data via Flask-SQLAlchemy, and validates all incoming request payloads with Pydantic before they reach the database layer.
 
-The application exposes a JSON API at five endpoints (`POST /todos`, `GET /todos`, `GET /todos/<id>`, `PUT /todos/<id>`, `DELETE /todos/<id>`) plus a human-readable HTML help page at `GET /help` and a static HTML contact page at `GET /contact`. It runs locally on `127.0.0.1:5001` and is deployed to production via gunicorn. All configuration is supplied through environment variables.
+The application exposes a JSON API at five endpoints (`POST /todos`, `GET /todos`, `GET /todos/<id>`, `PUT /todos/<id>`, `DELETE /todos/<id>`) plus a human-readable HTML help page at `GET /help`. It runs locally on `127.0.0.1:5001` and is deployed to production via gunicorn. All configuration is supplied through environment variables.
 
 ### Key Design Goals
 
@@ -28,7 +28,6 @@ The application follows a layered architecture within the Flask application fact
 │               Flask Route Layer                      │
 │         app/src/routes/todos.py                      │
 │         app/src/routes/help.py                       │
-│         app/src/routes/contact.py                    │
 │  - Parse request JSON                                │
 │  - Delegate to Pydantic schema for validation        │
 │  - Call model/db layer                               │
@@ -62,7 +61,7 @@ The `create_app()` factory in `app/src/__init__.py` wires everything together:
 
 1. Load configuration from environment variables.
 2. Initialise Flask extensions (SQLAlchemy) via `app/src/extensions.py`.
-3. Register blueprints (`todos_bp`, `help_bp`, `contact_bp`).
+3. Register blueprints (`todos_bp`, `help_bp`).
 4. Register global error handlers.
 5. Create database tables if they do not exist.
 
@@ -72,8 +71,7 @@ flowchart TD
     B --> C[Init SQLAlchemy extension]
     C --> D[Register todos blueprint]
     D --> E[Register help blueprint]
-    E --> E2[Register contact blueprint]
-    E2 --> F[Register error handlers]
+    E --> F[Register error handlers]
     F --> G[db.create_all]
     G --> H[Return app]
 ```
@@ -91,7 +89,7 @@ def create_app(config_object: str | None = None) -> Flask
 - Reads `SECRET_KEY` (required) and `DATABASE_URL` (optional, defaults to `sqlite:///todos.db`) from the environment.
 - Raises `RuntimeError` and logs an error if `SECRET_KEY` is absent.
 - Calls `db.init_app(app)` from `extensions.py`.
-- Registers blueprints and error handlers (`todos_bp`, `help_bp`, `contact_bp`).
+- Registers blueprints and error handlers (`todos_bp`, `help_bp`).
 
 ### 2. Extensions — `app/src/extensions.py`
 
@@ -141,25 +139,7 @@ Registered at prefix `/todos`. Implements all five CRUD endpoints.
 
 Registered at prefix `/help`. Renders `app/src/templates/help.html` with HTTP 200.
 
-### 8. Contact Blueprint — `app/src/routes/contact.py`
-
-Registered at prefix `/contact`. Renders `app/src/templates/contact.html` with HTTP 200 and a `Content-Type` of `text/html; charset=utf-8`.
-
-The template displays at least one contact method: either a `mailto:` link or an HTML form containing name, email, and message fields. No dynamic data is required — the route handler is a single `render_template` call.
-
-| Method | Path | Handler |
-|---|---|---|
-| `GET` | `/contact` | `contact_page` |
-
-The blueprint is registered in `create_app()` alongside `todos_bp` and `help_bp`.
-
-**Template**: `app/src/templates/contact.html`
-
-Provides a static Contact Us page. Must include at least one of:
-- A `<a href="mailto:...">` link, **or**
-- An HTML `<form>` with `<input>` (or `<textarea>`) fields for name, email, and message.
-
-### 9. Error Handlers
+### 8. Error Handlers
 
 Registered globally in the factory:
 
@@ -402,7 +382,6 @@ Use the Flask test client against an in-memory SQLite database:
 - `DELETE /todos/<id>` removes item → 204.
 - `DELETE /todos/<id>` for missing item → 404.
 - `GET /help` → 200 + HTML content.
-- `GET /contact` → 200 + `Content-Type` begins with `text/html` + body contains a contact method (mailto link or form with name/email/message fields).
 - Missing `SECRET_KEY` at startup → `RuntimeError`.
 
 ### Property-Based Tests (`tests/property/`)
