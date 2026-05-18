@@ -122,3 +122,16 @@ A simple web-based todo application that allows users to create, view, update, a
 2. THE help page SHALL document each of the five API endpoints — `POST /todos`, `GET /todos`, `GET /todos/<id>`, `PUT /todos/<id>`, and `DELETE /todos/<id>` — including the HTTP method and path for each.
 3. THE help page SHALL document, for each endpoint, the accepted request body fields (where applicable) and the possible HTTP response codes.
 4. IF an unexpected server error occurs when serving the `/help` route, THEN THE Todo_App SHALL return an error response with HTTP 500.
+
+---
+
+### Requirement 9: Contact Us Page
+
+**User Story:** As a user, I want to view a Contact Us page, so that I can find out how to get in touch with the application's support team.
+
+#### Acceptance Criteria
+
+1. WHEN a GET request is received at `/contact`, THE Todo_App SHALL return a static HTML Contact Us page with HTTP 200.
+2. THE Contact Us page SHALL display at least one of the following contact methods visible in the HTML body: a valid email address (rendered as a `mailto:` link or plain text) or an HTML contact form with at least a name field, an email field, and a message field.
+3. THE Contact Us page SHALL return a `Content-Type` response header whose value begins with `text/html` (e.g. `text/html; charset=utf-8`).
+4. IF an unexpected server error occurs when serving the `/contact` route, THEN THE Todo_App SHALL return an error response with HTTP 500.

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo App — Contact Us</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f5f7fa;
+      color: #1a1a2e;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container { max-width: 640px; margin: 0 auto; }
+    header { margin-bottom: 2rem; }
+    header h1 { font-size: 2rem; font-weight: 700; color: #1a1a2e; }
+    header p { margin-top: 0.5rem; color: #555; font-size: 1rem; }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .card h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; color: #1a1a2e; }
+    .email-link { color: #2563eb; text-decoration: none; font-weight: 500; }
+    .email-link:hover { text-decoration: underline; }
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.3rem;
+      margin-top: 1rem;
+    }
+    label:first-of-type { margin-top: 0; }
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: #f9fafb;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      background: #fff;
+    }
+    textarea { resize: vertical; min-height: 120px; }
+    button[type="submit"] {
+      margin-top: 1.25rem;
+      padding: 0.6rem 1.5rem;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button[type="submit"]:hover { background: #1d4ed8; }
+    footer { margin-top: 3rem; text-align: center; font-size: 0.8rem; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Contact Us</h1>
+      <p>Have a question or need help? Reach out and we'll get back to you.</p>
+    </header>
+
+    <div class="card">
+      <h2>Email</h2>
+      <p>You can reach us directly at
+        <a class="email-link" href="mailto:support@todoapp.example.com">support@todoapp.example.com</a>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Send a Message</h2>
+      <form method="post" action="/contact">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="How can we help?" required></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+
+    <footer>
+      <p>Todo App &mdash; we typically respond within one business day.</p>
+    </footer>
+  </div>
+</body>
+</html>

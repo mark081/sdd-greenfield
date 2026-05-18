@@ -190,6 +190,31 @@ class TestHelpPage:
         assert "/todos" in body
 
 
+class TestContactPage:
+    """GET /contact"""
+
+    def test_returns_200(self, client):
+        resp = client.get("/contact")
+        assert resp.status_code == 200
+
+    def test_content_type_is_html(self, client):
+        resp = client.get("/contact")
+        assert resp.content_type.startswith("text/html")
+
+    def test_body_contains_mailto_link(self, client):
+        resp = client.get("/contact")
+        body = resp.data.decode()
+        assert "mailto:" in body
+
+    def test_body_contains_contact_form_fields(self, client):
+        resp = client.get("/contact")
+        body = resp.data.decode()
+        # Form must have name, email, and message fields
+        assert 'name="name"' in body
+        assert 'name="email"' in body
+        assert 'name="message"' in body
+
+
 class TestStartupConfig:
     """Application factory configuration tests."""
 
