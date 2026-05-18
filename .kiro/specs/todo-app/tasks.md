@@ -6,7 +6,7 @@ Implement a Flask-based REST API for managing todo items using the application f
 
 ## Tasks
 
-- [ ] 1. Scaffold project structure and install dependencies
+- [x] 1. Scaffold project structure and install dependencies
   - Create the directory tree: `app/src/`, `app/src/static/`, `app/src/models/`, `app/src/routes/`, `app/src/schemas/`, `app/src/templates/`, `tests/unit/`, `tests/integration/`, `tests/property/`
   - Initialise the project with `uv init` (if not already done) and add runtime dependencies: `uv add flask flask-sqlalchemy pydantic gunicorn`
   - Add dev/test dependencies: `uv add --dev pytest pytest-flask hypothesis`
@@ -14,26 +14,26 @@ Implement a Flask-based REST API for managing todo items using the application f
   - Create `pyproject.toml` `[tool.hatch.build.targets.wheel]` entry pointing to `app/src`
   - _Requirements: 6.1, 6.2, 6.4, 6.5_
 
-- [ ] 2. Implement configuration and application factory
-  - [ ] 2.1 Create `app/src/config.py` with `BaseConfig`, `DevelopmentConfig`, and `ProductionConfig` classes
+- [x] 2. Implement configuration and application factory
+  - [x] 2.1 Create `app/src/config.py` with `BaseConfig`, `DevelopmentConfig`, and `ProductionConfig` classes
     - `BaseConfig`: `SQLALCHEMY_TRACK_MODIFICATIONS = False`
     - `DevelopmentConfig(BaseConfig)`: `DEBUG = True`
     - `ProductionConfig(BaseConfig)`: `DEBUG = False`
     - _Requirements: 6.1, 6.2, 6.4, 6.5_
 
-  - [ ] 2.2 Create `app/src/extensions.py` with the shared `SQLAlchemy` instance
+  - [x] 2.2 Create `app/src/extensions.py` with the shared `SQLAlchemy` instance
     - Single `db = SQLAlchemy()` instance imported by models and the factory
     - _Requirements: 6.1_
 
-  - [ ] 2.3 Create `app/src/__init__.py` with the `create_app()` factory
+  - [x] 2.3 Create `app/src/__init__.py` with the `create_app()` factory
     - Read `SECRET_KEY` from `os.environ`; raise `RuntimeError` and log an error if absent
     - Read `DATABASE_URL` from `os.environ`; default to `sqlite:///todos.db`
     - Call `db.init_app(app)`, register blueprints (`todos_bp`, `help_bp`), register global error handlers (400, 404, 422, 500)
     - Call `db.create_all()` inside an app context
     - _Requirements: 6.1, 6.2, 6.3, 6.4_
 
-- [ ] 3. Implement the `TodoItem` ORM model
-  - [ ] 3.1 Create `app/src/models/todo.py` with the `TodoItem` SQLAlchemy model
+- [x] 3. Implement the `TodoItem` ORM model
+  - [x] 3.1 Create `app/src/models/todo.py` with the `TodoItem` SQLAlchemy model
     - Columns: `id` (Integer PK autoincrement), `title` (String 200, not null), `description` (Text, nullable), `completed` (Boolean, not null, default `False`), `created_at` (DateTime, not null, default `datetime.utcnow`)
     - Implement `to_dict()` returning all five fields with `created_at` formatted as ISO 8601 UTC (`isoformat() + "Z"`)
     - _Requirements: 1.1, 1.5, 1.6, 2.3, 3.1_
@@ -45,7 +45,7 @@ Implement a Flask-based REST API for managing todo items using the application f
     - _Requirements: 1.5, 2.3_
 
 - [ ] 4. Implement Pydantic validation schemas
-  - [ ] 4.1 Create `app/src/schemas/todo_schemas.py` with `TodoCreateSchema` and `TodoUpdateSchema`
+  - [x] 4.1 Create `app/src/schemas/todo_schemas.py` with `TodoCreateSchema` and `TodoUpdateSchema`
     - `TodoCreateSchema`: `title` required, `min_length=1`, `max_length=200`, `field_validator` strips and rejects whitespace-only values; `description` optional, `min_length=1`, `max_length=1000`
     - `TodoUpdateSchema`: all fields optional; same `title` validator; `completed` typed as `bool | None`
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 1.2, 1.3, 1.4, 4.3, 4.4, 4.5_
@@ -82,7 +82,7 @@ Implement a Flask-based REST API for managing todo items using the application f
     - Construct dicts without `title` key; assert `ValidationError` raised by `TodoCreateSchema`
 
 - [ ] 5. Implement the todos blueprint and CRUD route handlers
-  - [ ] 5.1 Create `app/src/routes/todos.py` with the `todos_bp` Blueprint (prefix `/todos`)
+  - [x] 5.1 Create `app/src/routes/todos.py` with the `todos_bp` Blueprint (prefix `/todos`)
     - Implement `POST /todos` (`create_todo`): parse JSON, validate with `TodoCreateSchema`, persist `TodoItem`, return `to_dict()` with HTTP 201
     - Implement `GET /todos` (`list_todos`): query all `TodoItem` rows ordered by `created_at` ascending, return JSON array with HTTP 200
     - Implement `GET /todos/<int:id>` (`get_todo`): fetch by PK, return `to_dict()` with HTTP 200 or `{"message": "Todo item not found"}` with HTTP 404
@@ -147,15 +147,15 @@ Implement a Flask-based REST API for managing todo items using the application f
     - **Validates: Requirements 3.2, 5.2**
     - `st.integers(min_value=1)` against empty DB; assert both `GET /todos/<id>` and `DELETE /todos/<id>` return 404 with `message` field
 
-- [ ] 6. Checkpoint — Ensure all tests pass
+- [x] 6. Checkpoint — Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Implement the help blueprint and template
-  - [ ] 7.1 Create `app/src/routes/help.py` with the `help_bp` Blueprint (prefix `/help`)
+- [x] 7. Implement the help blueprint and template
+  - [x] 7.1 Create `app/src/routes/help.py` with the `help_bp` Blueprint (prefix `/help`)
     - Single `GET /help` handler that renders `app/src/templates/help.html` with HTTP 200
     - _Requirements: 8.1, 8.4_
 
-  - [ ] 7.2 Create `app/src/templates/help.html`
+  - [x] 7.2 Create `app/src/templates/help.html`
     - Document all five API endpoints: `POST /todos`, `GET /todos`, `GET /todos/<id>`, `PUT /todos/<id>`, `DELETE /todos/<id>`
     - For each endpoint: HTTP method, path, accepted request body fields (where applicable), and possible HTTP response codes
     - _Requirements: 8.1, 8.2, 8.3_
@@ -165,12 +165,12 @@ Implement a Flask-based REST API for managing todo items using the application f
     - Assert response body contains each of the five endpoint paths
     - _Requirements: 8.1, 8.2, 8.3_
 
-- [ ] 8. Wire application entry points
-  - [ ] 8.1 Create `app/src/run.py` (development entry point)
+- [x] 8. Wire application entry points
+  - [x] 8.1 Create `app/src/run.py` (development entry point)
     - Call `create_app()` and run with `host="127.0.0.1"`, `port=5001`
     - _Requirements: 6.5_
 
-  - [ ] 8.2 Create `wsgi.py` (production gunicorn entry point)
+  - [x] 8.2 Create `wsgi.py` (production gunicorn entry point)
     - Expose `app = create_app()` for gunicorn to discover
     - _Requirements: 6.5_
 
@@ -178,7 +178,7 @@ Implement a Flask-based REST API for managing todo items using the application f
     - Monkeypatch `os.environ` to remove `SECRET_KEY`; assert `create_app()` raises `RuntimeError`
     - _Requirements: 6.3_
 
-- [ ] 9. Final checkpoint — Ensure all tests pass
+- [x] 9. Final checkpoint — Ensure all tests pass
   - Run `uv run pytest -v` and confirm all tests pass with no warnings. Ask the user if questions arise.
 
 ## Notes
